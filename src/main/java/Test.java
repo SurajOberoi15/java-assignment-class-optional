@@ -4,31 +4,30 @@ class ClassRoom {
     int roomId;
     Optional<List<Student>> studentList;
 
+
     public ClassRoom(int roomId, Optional<List<Student>> studentList) {
         this.roomId = roomId;
         this.studentList = studentList;
     }
-        // Checking that if the studentList has no students in a particular roomID
-        public boolean hasStudent() {
-            long count = studentList.get().size();
-            return count != 0 ? true : false;
-        }
 
+    public boolean hasStudent() {
+        long count = studentList.get().stream()
+                .filter(student -> student.subjects.get().size() == 0)
+                .count();
+        if(count != 0) return true;
+        else return false;
+    }
 
     public boolean studentsWithParticularRoomId(int id) {
-        studentList.orElse(null).stream()
+        studentList.get().stream()
                 .filter(student -> this.roomId == id)
                 .forEach(student -> System.out.println("Student name : " + student.name + ", Student subjects :" + student.subjects));
-                long count = studentList.get().size();
-                return count != 0 ? true : false;
-
+                return true;
     }
 
     public void studentWithNoSubjects() {
-        studentList.orElse(null).stream()
-                .filter(student -> {
-                    return student.subjects.orElse(null).size() == 0;
-                })
+        studentList.get().stream()
+                .filter(student -> student.subjects.get().size() == 0)
                 .forEach(student -> System.out.println("Student which has no subjects associated with it "+student.name));
     }
 }
@@ -59,7 +58,6 @@ class Test {
         List<String> list2 = new ArrayList<>();
         list2.add("C");
         list2.add("C++");
-        list2.add("Physics");
 
         Optional<List<String>> subjectList2 = Optional.of(list2);
 
@@ -80,13 +78,14 @@ class Test {
 
         ClassRoom room = new ClassRoom(121,studentList);
 
-        //no subjects
+        //Student with no associated subjects
         room.studentWithNoSubjects();
 
-        //unique subject list
-        boolean flag1 = room.studentsWithParticularRoomId(121);
+        // students with particular room ID
+        boolean flag1 =  room.studentsWithParticularRoomId(121);
+        System.out.println(flag1);
 
-        //if a room has students or not
+        // If a room has students associated with it or not
         boolean flag = room.hasStudent();
 
         if(flag) {
@@ -95,6 +94,5 @@ class Test {
         else {
             System.out.println("Room " + room.roomId + "has no students in it");
         }
-
     }
 }
