@@ -15,10 +15,12 @@ class ClassRoom {
         }
 
 
-    public void studentsWithParticularRoomId(int id) {
+    public boolean studentsWithParticularRoomId(int id) {
         studentList.orElse(null).stream()
                 .filter(student -> this.roomId == id)
                 .forEach(student -> System.out.println("Student name : " + student.name + ", Student subjects :" + student.subjects));
+                long count = studentList.get().size();
+                return count != 0 ? true : false;
 
     }
 
@@ -82,7 +84,7 @@ class Test {
         room.studentWithNoSubjects();
 
         //unique subject list
-        room.studentsWithParticularRoomId(121);
+        boolean flag1 = room.studentsWithParticularRoomId(121);
 
         //if a room has students or not
         boolean flag = room.hasStudent();
