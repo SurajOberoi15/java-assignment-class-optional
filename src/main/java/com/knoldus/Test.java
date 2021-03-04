@@ -1,3 +1,5 @@
+package com.knoldus;
+
 import java.util.*;
 
 class ClassRoom {
@@ -18,11 +20,11 @@ class ClassRoom {
         else return false;
     }
 
-    public boolean studentsWithParticularRoomId(int id) {
+    public boolean studentsWithParticularRoomId() {
         studentList.get().stream()
-                .filter(student -> this.roomId == id)
-                .forEach(student -> System.out.println("Student name : " + student.name + ", Student subjects :" + student.subjects));
-                return true;
+                .filter(student -> this.roomId == roomId)
+                .forEach(student -> System.out.println("Student name : " + student.name + ", Student subjects :" + student.subjects +", Student room Id :" + student.roomID));
+        return true;
     }
 
     public void studentWithNoSubjects() {
@@ -36,11 +38,13 @@ class Student {
     String name;
     int rollNumber;
     Optional<List<String>> subjects;
+    int roomID;
 
-    public Student(String name, int rollNumber, Optional<List<String>> subjects) {
+    public Student(String name, int rollNumber, Optional<List<String>> subjects, int roomID) {
         this.name = name;
         this.rollNumber = rollNumber;
         this.subjects = subjects;
+        this.roomID = roomID;
     }
 
 }
@@ -53,7 +57,7 @@ class Test {
 
         Optional<List<String>> subjectList1 = Optional.of(list1);
 
-        Student s1 = new Student("A",2,subjectList1);
+        Student s1 = new Student("A",2,subjectList1, 121);
 
         List<String> list2 = new ArrayList<>();
         list2.add("C");
@@ -61,13 +65,13 @@ class Test {
 
         Optional<List<String>> subjectList2 = Optional.of(list2);
 
-        Student s2 = new Student("C",1,subjectList2);
+        Student s2 = new Student("C",1,subjectList2, 121);
 
         List<String> list3 = new ArrayList<>();
 
         Optional<List<String>> subjectList3 = Optional.of(list3);
 
-        Student s3 = new Student("B",3,subjectList3);
+        Student s3 = new Student("B",3,subjectList3, 121);
 
         List<Student> students = new ArrayList<>();
         students.add(s1);
@@ -82,8 +86,8 @@ class Test {
         room.studentWithNoSubjects();
 
         // students with particular room ID
-        boolean flag1 =  room.studentsWithParticularRoomId(121);
-        System.out.println(flag1);
+        boolean flag1 =  room.studentsWithParticularRoomId();
+       // System.out.println(flag1);
 
         // If a room has students associated with it or not
         boolean flag = room.hasStudent();
